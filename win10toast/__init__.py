@@ -43,6 +43,7 @@ from win32gui import UnregisterClass
 from win32gui import Shell_NotifyIcon
 from win32gui import UpdateWindow
 from win32gui import WNDCLASS
+from win32gui import NIIF_NOSOUND
 
 # ############################################################################
 # ########### Classes ##############
@@ -60,7 +61,7 @@ class ToastNotifier(object):
         self._thread = None
 
     def _show_toast(self, title, msg,
-                    icon_path, duration):
+                    icon_path, duration, sound):
         """Notification settings.
 
         :title: notification title
@@ -104,7 +105,13 @@ class ToastNotifier(object):
         flags = NIF_ICON | NIF_MESSAGE | NIF_TIP
         nid = (self.hwnd, 0, flags, WM_USER + 20, hicon, "Tooltip")
         Shell_NotifyIcon(NIM_ADD, nid)
-        Shell_NotifyIcon(NIM_MODIFY, (self.hwnd, 0, NIF_INFO,
+        if not sound:
+            Shell_NotifyIcon(NIM_MODIFY, (self.hwnd, 0, NIF_INFO,
+                                      WM_USER + 20,
+                                      hicon, "Balloon Tooltip", msg, 200,
+                                      title, NIIF_NOSOUND))
+        else:
+            Shell_NotifyIcon(NIM_MODIFY, (self.hwnd, 0, NIF_INFO,
                                       WM_USER + 20,
                                       hicon, "Balloon Tooltip", msg, 200,
                                       title))
@@ -115,7 +122,7 @@ class ToastNotifier(object):
         return None
 
     def show_toast(self, title="Notification", msg="Here comes the message",
-                    icon_path=None, duration=5, threaded=False):
+                    icon_path=None, duration=5, threaded=False, sound=True):
         """Notification settings.
 
         :title: notification title
@@ -124,13 +131,13 @@ class ToastNotifier(object):
         :duration: delay in seconds before notification self-destruction
         """
         if not threaded:
-            self._show_toast(title, msg, icon_path, duration)
+            self._show_toast(title, msg, icon_path, duration, sound)
         else:
             if self.notification_active():
                 # We have an active notification, let is finish so we don't spam them
                 return False
 
-            self._thread = threading.Thread(target=self._show_toast, args=(title, msg, icon_path, duration))
+            self._thread = threading.Thread(target=self._show_toast, args=(title, msg, icon_path, duration, sound))
             self._thread.start()
         return True
 

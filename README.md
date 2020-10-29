@@ -1,4 +1,5 @@
-# Windows 10 Toast Notifications
+# Windows 10 Toast Notifications (with sound option)
+just added an option to disable the sound that plays with the notification
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)  [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjithurjacob%2FWindows-10-Toast-Notifications.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjithurjacob%2FWindows-10-Toast-Notifications?ref=badge_shield) [![HitCount](http://hits.dwyl.io/jithurjacob/Windows-10-Toast-Notifications.svg)](http://hits.dwyl.io/jithurjacob/Windows-10-Toast-Notifications) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 
 An easy-to-use Python library for displaying Windows 10 Toast Notifications which is useful for Windows GUI development.
